@@ -1,6 +1,7 @@
-package app.models;
+package app.junit5.models;
 
 
+import app.junit5.exceptions.InsufficientMoneyExceptions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -64,5 +65,55 @@ class BankAccountTest {
         assertNotNull(bankAccount.getBalance());
         assertEquals(2100, bankAccount.getBalance().intValue());
         assertEquals("2100.121212", bankAccount.getBalance().toPlainString());
+    }
+
+  @Test
+  void testInsuficientMoneyExceptionBalance() {
+      BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
+      Exception exception = assertThrows(InsufficientMoneyExceptions.class, ()->bankAccount.debit(new BigDecimal("2100")));
+      String actual = exception.getMessage();
+      String esperado = "Insufficient Money";
+      assertEquals(esperado, actual);
+  }
+
+  @Test
+  void testTransferMoneyAccount() {
+      BankAccount bill1 = new BankAccount("Alejandro Peredo", new BigDecimal("2500"));
+      BankAccount bill2 = new BankAccount("Jaime Peredo", new BigDecimal("1500"));
+      Bank bank = new Bank();
+      bank.setName("Bank of America");
+      bank.transfer(bill2, bill1, new BigDecimal("500"));
+      // Comparo si en las dos cuenta el saldo es el esperado, en la primera se debita y se acredita en la segunda
+      assertEquals("1000", bill2.getBalance().toPlainString());
+      assertEquals("3000", bill1.getBalance().toPlainString());
+  }
+
+    @Test
+    void testBankAccountRelationship() {
+        BankAccount bill1 = new BankAccount("Alejandro Peredo", new BigDecimal("2500"));
+        BankAccount bill2 = new BankAccount("Jaime Peredo", new BigDecimal("1500"));
+        Bank bank = new Bank();
+        bank.addCount(bill1);
+        bank.addCount(bill2);
+        bank.setName("Bank of America");
+        bank.transfer(bill2, bill1, new BigDecimal("500"));
+        // Comparo si en las dos cuenta el saldo es el esperado, en la primera se debita y se acredita en la segunda
+        assertEquals("1000", bill2.getBalance().toPlainString());
+        assertEquals("3000", bill1.getBalance().toPlainString());
+
+        // Relacion Cuentas-Bancos
+        assertEquals(2, bank.getBankAccount().size());
+        // Relacion Banco-Cuentas
+        assertEquals("Bank of America", bill1.getBank().getName());
+
+        // encuentra el nombre de la cuenta
+        assertEquals("Alejandro Peredo", bank.getBankAccount().stream()
+                .filter(c -> c.getPerson().equals("Alejandro Peredo"))
+                .findFirst()
+                .get().getPerson());
+
+        assertTrue(bank.getBankAccount().stream()
+                .anyMatch(c -> c.getPerson().equals("Alejandro Peredo")));
+
     }
 }
