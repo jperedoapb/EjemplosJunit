@@ -15,8 +15,12 @@ Esta anotación es excelente para escribir POJOs.
 @AllArgsConstructor
 public class BankAccount {
     private String person;
-    private BigDecimal amount;
+    private BigDecimal balance;
 
-    public void debit(BigDecimal amount){}
-    public void credit(BigDecimal amount){}
+    public void debit(BigDecimal amount){
+        this.balance = this.balance.subtract(amount);
+    }
+    public void credit(BigDecimal amount){
+        this.balance = this.balance.add(amount);
+    }
 }

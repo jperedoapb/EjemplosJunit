@@ -13,7 +13,7 @@ class BankAccountTest {
       BankAccount bankAccount = new BankAccount("Alejandro", new BigDecimal("10000.12345"));
 
       // Verifico que el saldo no sea nulo
-      assertNotNull(bankAccount.getAmount());
+      assertNotNull(bankAccount.getBalance());
 
       String esperado = "Alejandro";
       assertEquals(esperado, bankAccount.getPerson());
@@ -25,12 +25,12 @@ class BankAccountTest {
   void testSaldoCuenta() {
       BankAccount bankAccount = new BankAccount("Alejandro", new BigDecimal("123456.123456"));
       // Verifico que el saldo no sea nulo
-      assertNotNull(bankAccount.getAmount());
-      assertEquals(123456.123456, bankAccount.getAmount().doubleValue());
+      assertNotNull(bankAccount.getBalance());
+      assertEquals(123456.123456, bankAccount.getBalance().doubleValue());
       // Comparamos que sea falsa una premisa
-      assertFalse(bankAccount.getAmount().compareTo(BigDecimal.ZERO) < 0);
+      assertFalse(bankAccount.getBalance().compareTo(BigDecimal.ZERO) < 0);
       // Comparamos que sea verdadera la premisa
-      assertTrue(bankAccount.getAmount().compareTo(BigDecimal.ZERO) > 0);
+      assertTrue(bankAccount.getBalance().compareTo(BigDecimal.ZERO) > 0);
   }
 
   /*
@@ -51,9 +51,9 @@ class BankAccountTest {
       BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
       bankAccount.debit(new BigDecimal(100));
       // Verifico que el saldo no sea nulo
-      assertNotNull(bankAccount.getAmount());
-      assertEquals(900, bankAccount.getAmount().intValue());
-      assertEquals("2000.121212", bankAccount.getAmount().toPlainString());
+      assertNotNull(bankAccount.getBalance());
+      assertEquals(1900, bankAccount.getBalance().intValue());
+      assertEquals("1900.121212", bankAccount.getBalance().toPlainString());
   }
 
     @Test
@@ -61,8 +61,8 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
         bankAccount.credit(new BigDecimal(100));
         // Verifico que el saldo no sea nulo
-        assertNotNull(bankAccount.getAmount());
-        assertEquals(2900, bankAccount.getAmount().intValue());
-        assertEquals("2000.121212", bankAccount.getAmount().toPlainString());
+        assertNotNull(bankAccount.getBalance());
+        assertEquals(2100, bankAccount.getBalance().intValue());
+        assertEquals("2100.121212", bankAccount.getBalance().toPlainString());
     }
 }
