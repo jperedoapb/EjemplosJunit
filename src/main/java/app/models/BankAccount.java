@@ -16,4 +16,7 @@ Esta anotación es excelente para escribir POJOs.
 public class BankAccount {
     private String person;
     private BigDecimal amount;
+
+    public void debit(BigDecimal amount){}
+    public void credit(BigDecimal amount){}
 }

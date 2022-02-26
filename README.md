@@ -115,6 +115,10 @@ _Esto depende del IDE(1) que utilices, seguir indicaciones de la web de [Project
 (incluyendo el atributo "staticConstructor" para generar un método estático de fábrica).
 Esta anotación es excelente para escribir POJOs.
 
+La anotación @Data de Lombok. Esta no solo agrega getters y setters, también sobre escribe 
+el método equals para comparar los objetos por sus atributos, no por referencia como sí se 
+hace por defecto. Al agregar la anotación, se compara por atributo en lugar de por referencia.
+
 ##### Iniciar aplicación
 
     mvn bootRun
@@ -163,7 +167,9 @@ _Sección dedicada al Diagrama de Arquitectura de la Solución, dicho diagrama d
 
 Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki]
 
-* Test driven development TDD con junit
+* Test driven development TDD con junit -> En resumen es primero realizar el código del Test y luego realizar la 
+implementación del método o metodos que cumplan ese test
+* 
 
 &nbsp;
 
@@ -197,6 +203,7 @@ Puedes encontrar mucho más de cómo utilizar este proyecto en nuestra [Wiki]
 ## Tips Intellij  ![](https://github.githubassets.com/images/icons/emoji/electron.png?v8) <code><img height="20" src="https://github.githubassets.com/images/icons/emoji/electron.png?v8"></code>
 * Insertar una nueva clase, paquete, test -> ALT + insert
 * Crear un nuevo objeto CTRL + ALT + v
+*  Replicar una linea CTRL + d
   
 ## Autores ✒
 _Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
