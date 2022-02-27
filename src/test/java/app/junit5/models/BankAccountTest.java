@@ -2,17 +2,40 @@ package app.junit5.models;
 
 
 import app.junit5.exceptions.InsufficientMoneyExceptions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BankAccountTest {
-  @Test
-  void testNameCount() {
-      BankAccount bankAccount = new BankAccount("Alejandro", new BigDecimal("10000.12345"));
 
+  BankAccount bankAccount;
+
+  @BeforeEach
+  void initMetodTest(){
+    this.bankAccount = new BankAccount("Alejandro", new BigDecimal("10000.12345"));
+    System.out.println("Iniciando los Test unitarios");
+  }
+
+  @AfterEach
+  void tearDown() {
+    System.out.println("Finalizando las pruebas unitarias");
+  }
+
+  @BeforeAll
+  static void beforeAll() {
+    System.out.println("Inicializando el Test completo");
+  }
+
+  @AfterAll
+  static void afterAll() {
+    System.out.println("Finalizando el test");
+  }
+
+  @Test
+  @DisplayName("Pruebas para validar el nombre de una cuenta de ahorro")
+  void testNameCount() {
       // Verifico que el saldo no sea nulo
       assertNotNull(bankAccount.getBalance(), ()-> "La cuenta no puede ser Nula");
 
@@ -24,11 +47,13 @@ class BankAccountTest {
   }
 
   @Test
+  // Con Disabled se indica que ese método no se ejecutará
+  //@Disabled
+  @DisplayName("Verificando el saldo en una cuenta")
   void testSaldoCuenta() {
-      BankAccount bankAccount = new BankAccount("Alejandro", new BigDecimal("123456.123456"));
       // Verifico que el saldo no sea nulo
       assertNotNull(bankAccount.getBalance());
-      assertEquals(123456.123456, bankAccount.getBalance().doubleValue());
+      assertEquals(10000.12345, bankAccount.getBalance().doubleValue());
       // Comparamos que sea falsa una premisa
       assertFalse(bankAccount.getBalance().compareTo(BigDecimal.ZERO) < 0);
       // Comparamos que sea verdadera la premisa
@@ -59,19 +84,19 @@ class BankAccountTest {
   }
 
     @Test
+    @DisplayName("Depósito cuenta")
     void testCreditAmount() {
-        BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
         bankAccount.credit(new BigDecimal(100));
         // Verifico que el saldo no sea nulo
         assertNotNull(bankAccount.getBalance());
-        assertEquals(2100, bankAccount.getBalance().intValue());
-        assertEquals("2100.121212", bankAccount.getBalance().toPlainString());
+        assertEquals(10100, bankAccount.getBalance().intValue());
+        assertEquals("10100.12345", bankAccount.getBalance().toPlainString());
     }
 
   @Test
   void testInsuficientMoneyExceptionBalance() {
-      BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
-      Exception exception = assertThrows(InsufficientMoneyExceptions.class, ()->bankAccount.debit(new BigDecimal("2100")));
+      //BankAccount bankAccount = new BankAccount("Alejandro Peredo", new BigDecimal("2000.121212"));
+      Exception exception = assertThrows(InsufficientMoneyExceptions.class, ()->bankAccount.debit(new BigDecimal("10100")));
       String actual = exception.getMessage();
       String esperado = "Insufficient Money";
       assertEquals(esperado, actual);
