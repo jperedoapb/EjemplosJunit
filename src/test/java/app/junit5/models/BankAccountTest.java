@@ -97,23 +97,26 @@ class BankAccountTest {
         bank.addCount(bill2);
         bank.setName("Bank of America");
         bank.transfer(bill2, bill1, new BigDecimal("500"));
-        // Comparo si en las dos cuenta el saldo es el esperado, en la primera se debita y se acredita en la segunda
-        assertEquals("1000", bill2.getBalance().toPlainString());
-        assertEquals("3000", bill1.getBalance().toPlainString());
 
-        // Relacion Cuentas-Bancos
-        assertEquals(2, bank.getBankAccount().size());
-        // Relacion Banco-Cuentas
-        assertEquals("Bank of America", bill1.getBank().getName());
-
-        // encuentra el nombre de la cuenta
-        assertEquals("Alejandro Peredo", bank.getBankAccount().stream()
-                .filter(c -> c.getPerson().equals("Alejandro Peredo"))
-                .findFirst()
-                .get().getPerson());
-
-        assertTrue(bank.getBankAccount().stream()
-                .anyMatch(c -> c.getPerson().equals("Alejandro Peredo")));
-
-    }
+    assertAll(
+        // Comparo si en las dos cuenta el saldo es el esperado, en la primera se debita y se
+        // acredita en la segunda
+        () -> assertEquals("1000", bill2.getBalance().toPlainString()),
+        () -> assertEquals("3000", bill1.getBalance().toPlainString()),
+        () -> assertEquals(2, bank.getBankAccount().size()),
+        () -> // Relacion Banco-Cuentas
+        assertEquals("Bank of America", bill1.getBank().getName()),
+        () -> // encuentra el nombre de la cuenta
+        assertEquals(
+                "Alejandro Peredo",
+                bank.getBankAccount().stream()
+                    .filter(c -> c.getPerson().equals("Alejandro Peredo"))
+                    .findFirst()
+                    .get()
+                    .getPerson()),
+        () ->
+            assertTrue(
+                bank.getBankAccount().stream()
+                    .anyMatch(c -> c.getPerson().equals("Alejandro Peredo"))));
+  }
 }
