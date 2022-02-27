@@ -14,12 +14,13 @@ class BankAccountTest {
       BankAccount bankAccount = new BankAccount("Alejandro", new BigDecimal("10000.12345"));
 
       // Verifico que el saldo no sea nulo
-      assertNotNull(bankAccount.getBalance());
+      assertNotNull(bankAccount.getBalance(), ()-> "La cuenta no puede ser Nula");
 
       String esperado = "Alejandro";
-      assertEquals(esperado, bankAccount.getPerson());
+      assertEquals(esperado, bankAccount.getPerson(), ()-> "el nombre de la cuenta no es el que se esperaba: "
+              + esperado + " lo que tenemos es: " + bankAccount.getPerson());
       // La linea anterior es igual a esta y mas efectiva
-      assertTrue(bankAccount.getPerson().equals(esperado));
+      assertTrue(bankAccount.getPerson().equals(esperado), ()-> "Nombre cuenta esperada debe ser igual a la real");
   }
 
   @Test
@@ -101,9 +102,10 @@ class BankAccountTest {
     assertAll(
         // Comparo si en las dos cuenta el saldo es el esperado, en la primera se debita y se
         // acredita en la segunda
-        () -> assertEquals("1000", bill2.getBalance().toPlainString()),
+        () -> assertEquals("1000", bill2.getBalance().toPlainString(),
+                () -> " El valor de la cuenta no es el esperado"),
         () -> assertEquals("3000", bill1.getBalance().toPlainString()),
-        () -> assertEquals(2, bank.getBankAccount().size()),
+        () -> assertEquals(2, bank.getBankAccount().size(), () -> "El banco no tiene las cuentas esperadas"),
         () -> // Relacion Banco-Cuentas
         assertEquals("Bank of America", bill1.getBank().getName()),
         () -> // encuentra el nombre de la cuenta
